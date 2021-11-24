@@ -64,7 +64,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 if (task) {
                     task.completed = !task.completed;
-                    this.message = `Task ${id} updated`;
+                    this.task = task;
+
+                    Api.updateTask(this.task).then(function (resp) {
+                        app.listTasks();
+                        app.clear();
+
+                        let status = resp.completed ? 'completed' : 'in progress';
+                        app.message = `Task ${resp.id} is ${status}`;
+                    })
                 }
             },
             createTask: function (event) {
