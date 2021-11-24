@@ -74,12 +74,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     this.task.completed = true;
                 }
 
-                this.task.id = this.nextId;
-
-                let newTask = Object.assign({}, this.task);
-                this.tasks.push(newTask);
-                this.clear();
-                this.message = `New task created`
+                Api.createTask(this.task).then(function (resp) {
+                    app.listTasks();
+                    app.clear();
+                    app.message = `Task ${resp.id} created`
+                });
             },
             editTask: function (event, id) {
                 event.stopImmediatePropagation();
