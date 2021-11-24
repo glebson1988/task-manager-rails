@@ -8,8 +8,27 @@ export function listTasks() {
 
 export function createTask(task) {
     var localTask = task;
+
     delete localTask.id
+
     return axios.post('/tasks.json', localTask)
+        .then(function (resp) {
+            return resp.data;
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
+
+export function updateTask(task) {
+    var taskId = task.id;
+    var localTask = {
+        name: task.name,
+        description: task.description,
+        completed: task.completed
+    }
+
+    return axios.put(`tasks/${taskId}.json`, localTask)
         .then(function (resp) {
             return resp.data;
         })
